@@ -100,6 +100,7 @@ def organize_session_data(timestamps, position, session_code, rat):
     # Interpolate NaN and zeros (loss of position data) in position dataframe
     position = (position.replace(0, np.nan)
                         .interpolate(method='linear', limit=5)
+
                         .fillna(0))
 
     # Number of data points in each session, in the position frame and timestamp frame must be equal
