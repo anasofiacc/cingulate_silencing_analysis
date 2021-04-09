@@ -115,11 +115,13 @@ def organize_session_data(timestamps, position, session_code, rat):
 
     # Converts xy from pixels to cm. Then Label data points according to run number.
     for col in ['x', 'y']:
+        timestamped_position[col] = timestamped_position[col].astype(float)
         timestamped_position[col] = (timestamped_position[col]*10)/50
-
+    
+    timestamped_position = timestamped_position[timestamped_position['x']<300]
     timestamped_position = (timestamped_position.pipe(prune_run_start, rat)
                             .pipe(divide_into_runs, session_code))
-
+    
     return timestamped_position
 
 
