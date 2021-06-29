@@ -135,9 +135,7 @@ def divide_into_runs(df, session_code):
     :return: dataframe with xy timestamped position data labelled according to run number
     '''
 
-    # Drop data from run 31 - session 2019-09-23 (Backward run) and run 44 - session 2019-08-20
     # Calculate difference between consecutive elements in 'x' and store them in new column 'x_diff'
-    df = remove_erratic_points_according_to_session(df, session_code)
     df['x_diff'] = (df['x'].diff()).fillna(0)
 
     # Get indexes of elements below diff pxs in x position.
@@ -170,17 +168,6 @@ def get_diff_according_to_session(session_code):
 
     print(diff)
     return diff
-
-
-def remove_erratic_points_according_to_session(df, session_code):
-
-    if session_code == '2019-09-23T11_17_17':
-
-        indices = df[(df['timestamp'] >= 954.0004607999999) & (df['timestamp'] <= 957.7860736)].index
-        new_df = df.drop(indices)
-        return new_df
-    else:
-        return df
 
 
 def prune_run_start(df, rat):
